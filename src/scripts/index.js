@@ -1,4 +1,5 @@
 
+import './pages/index.css';
 const cardTemplate = document.querySelector('#card-template').content;
 
 function createCard (cardData, deleteCard) {
