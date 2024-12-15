@@ -3,7 +3,7 @@ export { createCard, deleteCard, likeClick};
 const cardTemplate = document.querySelector('#card-template').content;
 
 //функция создания карточки createCard
-function createCard (cardData, deleteCard, likeClick, OpenImageInPopup) {
+function createCard (cardData, deleteCard, likeClick, openImageInPopup) {
 
     const cardElem = cardTemplate.querySelector('.places__item').cloneNode(true);
     const imageInCard = cardElem.querySelector('.card__image');
@@ -25,7 +25,7 @@ function createCard (cardData, deleteCard, likeClick, OpenImageInPopup) {
 
     //Обработчик клика по картинке, чтобы открыть попап с картинкой
     imageInCard.addEventListener('click', () => {
-        OpenImageInPopup(cardData.link, cardData.name, cardData.name);
+        openImageInPopup(cardData.link, cardData.name, cardData.name);
     })
 
     return cardElem;
