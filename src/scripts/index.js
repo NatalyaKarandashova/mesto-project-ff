@@ -1,7 +1,7 @@
 import '../pages/index.css';
 import { initialCards } from './cards.js';
 import { createCard, deleteCard, likeClick} from '../components/card.js';
-import { openPopup } from '../components/modal.js';
+import { openPopup, closeModal } from '../components/modal.js';
 
 //объявление глобальных переменных
 
@@ -21,6 +21,7 @@ const formElementAddCard = popupAddCord.querySelector('.popup__form');
 const popupImage = document.querySelector('.popup_type_image');
 const popupImageElementInPopup = popupImage.querySelector('.popup__image');
 const popupImageCaption = popupImage.querySelector('.popup__caption');
+const closeButtons = document.querySelectorAll('.popup__close');
 
 initialCards.forEach((cardData) => {
     const cardElem = createCard (cardData, deleteCard, likeClick, openImageInPopup);
@@ -45,6 +46,8 @@ function handleFormSubmitProfile(evt) {
 
     fieledTitle.textContent = nameInput.value;
     fieledDescription.textContent = jobInput.value;
+
+    closeModal(popupEditProfile);
 };
 
 formElementProfile.addEventListener('submit', handleFormSubmitProfile); 
@@ -61,15 +64,23 @@ formElementAddCard.addEventListener('submit', function(evt) {
     cardList.prepend(newCardElement);
 
     formElementAddCard.reset();
+    closeModal(popupAddCord);
 });
 
 function openImageInPopup (imageSrc, imageAlt, imageCaption) {
     popupImageElementInPopup.src = imageSrc;
     popupImageElementInPopup.alt = imageAlt;
     popupImageCaption.textContent = imageCaption;
-    popupImage.classList.add('popup_is-opened');
+    openPopup(popupImage);
 };
 
+//закрытие по кнопке кретик
+closeButtons.forEach((button) => {
+    const popup = button.closest('.popup');
+    button.addEventListener('click', () => {
+        closeModal(popup);
+    })
+});
 
 
 
