@@ -49,8 +49,8 @@
           class="popup__input popup__input_type_name" 
           placeholder="Имя" 
           minlength="2" 
-          data-max-length="40"
-          data-pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
+          maxlength="40"
+          pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
           required
         >
@@ -62,17 +62,17 @@
           class="popup__input popup__input_type_description" 
           placeholder="Занятие" 
           minlength="2" 
-          data-max-length="200" 
-          data-pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
+          maxlength="200" 
+          pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
           required
         >
         <span class="description-input-error popup__input-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
-    </div>
   </div>
-  <div class="popup popup_type_avatar">
+  </div>
+  <div class="popup popup_type_avatar popup_is-animated">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Обновить аватар</h3>
@@ -88,7 +88,7 @@
         <span class="popup__input-error avatar-img-link-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
-    </div>
+  </div>
   </div>  
   <div class="popup popup_type_new-card popup_is-animated">
     <div class="popup__content">
@@ -101,10 +101,10 @@
           id="place-input"
           class="popup__input popup__input_type_card-name" 
           placeholder="Название" 
-          data-pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
+          pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
           minlength="2" 
-          data-max-length="30"
+          maxlength="30"
           required
         >
         <span class="place-input-error popup__input-error"></span>
@@ -113,9 +113,7 @@
           name="link" 
           id="url-input"
           class="popup__input popup__input_type_url" 
-          placeholder="Ссылка на картинку" 
-          data-pattern="https?://.+"
-          data-error-message="Введите корректный URL"
+          placeholder="Ссылка на картинку"
           required
         >
         <span class="url-input-error popup__input-error"></span>

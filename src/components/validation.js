@@ -1,4 +1,4 @@
-export { enableValidation, clearValidation, prepareFormForEditing }
+export { enableValidation, clearValidation }
 
 // Функция для активации валидации
 const enableValidation = (validationConfig) => {
@@ -24,34 +24,18 @@ const setEventListener = (formElement, validationConfig) => {
 
 // Функция проверки валидности
 const isValid = (formElement, inputElement, validationConfig) => {
-    const pattern = new RegExp(inputElement.dataset.pattern); // Получаем паттерн из атрибута data-pattern
-    const errorMessage = inputElement.dataset.errorMessage; // Сообщение об ошибке из атрибута data-error-message
 
-    if (inputElement.validity.valueMissing) {
-        showInputError(formElement, inputElement, 'Вы пропустили это поле', validationConfig);
-    } else if (inputElement.value.length < 2) {
-        showInputError(formElement, inputElement, 'Минимальная длина текста: 2 символа', validationConfig);
-    } else if (inputElement.value.length > inputElement.dataset.maxLength) {
-        showInputError(formElement, inputElement, `Максимум ${inputElement.dataset.maxLength} символов`, validationConfig);
-    } else if (!pattern.test(inputElement.value)) {
-        showInputError(formElement, inputElement, errorMessage, validationConfig);
-        inputElement.setCustomValidity(errorMessage);
+    if (inputElement.validity.patternMismatch) {
+        inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+    } else {
+        inputElement.setCustomValidity('');
+    };
+
+    if (!inputElement.validity.valid) {
+        showInputError(formElement, inputElement, inputElement.validationMessage, validationConfig);
     } else {
         hideInputError(formElement, inputElement, validationConfig);
-        inputElement.setCustomValidity('');
-    }
-};
-
-//функция для проверки подставленных данных
-const prepareFormForEditing = (formElement, validationConfig) => {
-    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-    const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-
-    inputList.forEach((inputElement) => {
-        isValid(formElement, inputElement, validationConfig);
-    });
-
-    toggleButtonState(inputList, buttonElement, validationConfig);
+    };
 };
 
 // Функция для отображения ошибки
@@ -75,11 +59,16 @@ const hasInvalidInput = (inputList) => {
     return inputList.some((inputElement) => !inputElement.validity.valid);
 };
 
+//функция для отключения кнопки
+const disableSubmitButton = (buttonElement, validationConfig) => {
+    buttonElement.disabled = true;
+    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+}
+
 // Функция для переключения состояния кнопки
 const toggleButtonState = (inputList, buttonElement, validationConfig) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.disabled = true;
-        buttonElement.classList.add(validationConfig.inactiveButtonClass);
+        disableSubmitButton(buttonElement, validationConfig);
     } else {
         buttonElement.disabled = false;
         buttonElement.classList.remove(validationConfig.inactiveButtonClass);
@@ -95,7 +84,6 @@ const clearValidation = (formElement, validationConfig) => {
         hideInputError(formElement, inputElement, validationConfig);
     });
 
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableSubmitButton(buttonElement, validationConfig);
 };
 
